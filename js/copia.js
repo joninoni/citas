@@ -6,7 +6,7 @@ const inputTelefono = document.querySelector("#telefono");
 const inputFecha = document.querySelector("#fecha");
 const inputHora = document.querySelector("#hora");
 const inputSintomas = document.querySelector("#sintomas");
-//objecto Principal
+//objecto Principal almacena la informacion de la cita en el objecto
 const objCita={
     mascota:"",
     propietario:"",
