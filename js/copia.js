@@ -14,6 +14,10 @@ class Cita{
     constructor(){
         this.citas =[];
     }
+    agregarCita(cita){
+        this.citas =[...this.citas,cita];
+        console.log(this.citas);
+    }
 }
 class UI{
     mostrarMensaje(mensaje,error){
@@ -76,4 +80,17 @@ function validarDatos(e){
         ui.mostrarMensaje("No puede haber campos vacios","error");
         return;
     }
+    objCita.id =Date.now();//le agrega un id para poder eliminar o editar una cita
+    cita.agregarCita({...objCita});// asi solo se pasa la ultima cita y no nos crea citas duplicadas;
+    formulario.reset();
+
+    reiniciarObjecto();//evita que el objecto siga teniendo valores
+}
+function reiniciarObjecto(){
+    objCita.mascota="";
+    objCita.propietario="";
+    objCita.telefono="";
+    objCita.fecha="";
+    objCita.hora="";
+    objCita.sintomas="";
 }
