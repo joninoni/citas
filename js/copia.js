@@ -6,8 +6,8 @@ const inputTelefono = document.querySelector("#telefono");
 const inputFecha = document.querySelector("#fecha");
 const inputHora = document.querySelector("#hora");
 const inputSintomas = document.querySelector("#sintomas");
-
-const contenido =document.querySelector("#contenido");
+const contenedorCitas = document.querySelector("#citas");//donde se van a mostrar las citas
+const contenido = document.querySelector("#contenido");
 
 // classes
 class Cita{
@@ -16,7 +16,6 @@ class Cita{
     }
     agregarCita(cita){
         this.citas =[...this.citas,cita];
-        console.log(this.citas);
     }
 }
 class UI{
@@ -39,8 +38,57 @@ class UI{
                 divMensaje.remove();
             },2000);
         }
+    }
+    mostrarCitas({citas}){
 
-        
+        this.limpiarHtml();
+
+        citas.forEach(cita => {
+        const {mascota,propietario,telefono,fecha,hora,sintomas,id}=cita;
+        const divCita=document.createElement("div");
+        divCita.classList.add("cita","p-3");
+        divCita.dataset.id=id;
+
+        const mascotaParrafo =document.createElement("h2");
+        mascotaParrafo.classList.add("card-title","font-weight-bolder")
+        mascotaParrafo.textContent=mascota;
+
+        //propietario
+        const propietarioParrafo=document.createElement("p");
+        propietarioParrafo.innerHTML=`<span class="font-weight-bolder">Propietario: </span> ${propietario}`;
+
+        //telefono
+        const telefonoParrafo=document.createElement("p");
+        telefonoParrafo.innerHTML=`<span class="font-weight-bolder">Telefono: </span> ${telefono}`;
+
+        //fecha
+        const fechaParrafo=document.createElement("p");
+        fechaParrafo.innerHTML=`<span class="font-weight-bolder">Fecha: </span> ${fecha}`;
+
+        //hora
+        const horaParrafo=document.createElement("p");
+        horaParrafo.innerHTML=`<span class="font-weight-bolder">Hora: </span> ${hora}`;
+
+        //sintomas
+        const sintomasParrafo=document.createElement("p");
+        sintomasParrafo.innerHTML=`<span class="font-weight-bolder">Sintomas: </span> ${sintomas}`;
+        //agregando la cita 
+        divCita.appendChild(mascotaParrafo);
+        divCita.appendChild(propietarioParrafo);
+        divCita.appendChild(telefonoParrafo);
+        divCita.appendChild(fechaParrafo);
+        divCita.appendChild(horaParrafo);
+        divCita.appendChild(sintomasParrafo);
+
+        //agregando al html
+        contenedorCitas.appendChild(divCita);
+       });
+    }
+
+    limpiarHtml(){
+        while (contenedorCitas.firstChild) {
+            contenedorCitas.removeChild(contenedorCitas.firstChild);
+        }
     }
 }
 //intancias de las Class
@@ -80,11 +128,13 @@ function validarDatos(e){
         ui.mostrarMensaje("No puede haber campos vacios","error");
         return;
     }
+
     objCita.id =Date.now();//le agrega un id para poder eliminar o editar una cita
     cita.agregarCita({...objCita});// asi solo se pasa la ultima cita y no nos crea citas duplicadas;
     formulario.reset();
 
     reiniciarObjecto();//evita que el objecto siga teniendo valores
+    ui.mostrarCitas(cita);
 }
 function reiniciarObjecto(){
     objCita.mascota="";
